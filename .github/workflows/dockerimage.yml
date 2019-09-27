@@ -1,27 +1,19 @@
 name: Docker Image CI
-
 on: [push]
-
 jobs:
-
   build:
- 
     runs-on: ubuntu-16.04
- 
     steps:
     - name: Check Out
       uses: actions/checkout@v1
-
     - uses: azure/docker-login@v1
       with:
         login-server: index.docker.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-        
-      - run: |
-          docker build . -t docker.io/{{ secrets.REPO_TAG }}
-          docker push docker.io/{{ secrets.REPO_TAG }}
-
+      run: |
+        docker build . -t docker.io/{{ secrets.REPO_TAG }}
+        docker push docker.io/{{ secrets.REPO_TAG }}
     - uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'github-action-docker'
