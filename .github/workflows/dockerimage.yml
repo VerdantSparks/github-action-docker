@@ -12,17 +12,16 @@ jobs:
     - name: Check Out
       uses: actions/checkout@v1
 
-    - name: Build the Docker image
-      uses: azure/docker-login@v1
-        with:
-          login-server: index.docker.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+    - uses: azure/docker-login@v1
+          with:
+            login-server: index.docker.io
+            username: ${{ secrets.REGISTRY_USERNAME }}
+            password: ${{ secrets.REGISTRY_PASSWORD }}
         
-      - run: |
-          docker build . --file Dockerfile --tag ${{ secrets.REPO_TAG }}
-          docker push docker.io/${{ secrets.REPO_TAG }}
-        
+        - run: |
+            docker build . -t docker.io/{{ secrets.REPO_TAG }}
+            docker push docker.io/{{ secrets.REPO_TAG }}
+
     - uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'github-action-docker'
