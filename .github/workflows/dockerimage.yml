@@ -17,8 +17,7 @@ jobs:
           login-server: index.docker.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      
-      - run: |
+        run: |
           docker build . -t docker.io/{{ secrets.REPO_TAG }}
           docker push docker.io/{{ secrets.REPO_TAG }}
 
