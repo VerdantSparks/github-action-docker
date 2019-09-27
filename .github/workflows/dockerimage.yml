@@ -9,21 +9,21 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
+    - name: Check Out
+      uses: actions/checkout@v1
 
-    - uses: azure/docker-login@v1
+    - name: Build the Docker image
+      uses: azure/docker-login@v1
       with:
-        login-server: contoso.azurecr.io
+        login-server: docker.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
         
     - run: |
-        docker build . --file Dockerfile --tag ${{ secrets.REPO_TAG }}:latest
+        docker build . --file Dockerfile --tag ${{ secrets.REPO_TAG }}
         docker push docker.io/${{ secrets.REPO_TAG }}
         
     - uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'github-action-docker'
-        images: 'docker.io/${{ secrets.REPO_TAG }}:latest'
-        
+        images: 'docker.io/${{ secrets.REPO_TAG }}'
