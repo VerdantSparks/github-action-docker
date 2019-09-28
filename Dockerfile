@@ -10,6 +10,5 @@ RUN dotnet publish github-action-docker.csproj -c Release -r linux-x64 -o /app
 # Stage 2
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
-EXPOSE 8080 8443
 COPY --from=builder /app .
 ENTRYPOINT ["./github-action-docker"]
