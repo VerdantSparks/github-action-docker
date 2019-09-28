@@ -12,6 +12,10 @@ jobs:
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
         docker push ${{ secrets.REPO_TAG }}
         docker logout
+    - name: 'Login via Azure CLI'
+      uses: azure/actions/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: azure/webapps-container-deploy@v1
       with:
         app-name: 'github-action-docker'
